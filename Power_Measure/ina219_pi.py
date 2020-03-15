@@ -25,8 +25,7 @@ class ina219_pi(object):
             with open(self.filename, 'a+') as f:
                 f.write(str)
                 f.write('\n')
-        else:
-            print(str)
+        print(self.filename, str)
 
     def read_power(self):
         return self.ina.power()
