@@ -10,19 +10,24 @@ import sys
 from datetime import datetime
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-file_path = dir_path + '/data/recv_data.txt'
+file_path = dir_path + '/data/adp_data.txt'
+refer_path = dir_path + '/data/refer_data.txt'
 broker_IP = '192.168.4.1'
 broker_port = 61613
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
-    client.subscribe("photon/data") # subscribe to all data
+    client.subscribe("photon/#") # subscribe to all data
 
 def on_message(client, userdata, msg):
     # save data
     print("Received from pi broker:" + msg.topic + " " + str(msg.payload))
-    with open(file_path, 'a+') as f:
+    if msg.topic == 'photon/data':
+        fname = file_path
+    elif msg.topic == 'photon/refer':
+        fname = refer_path
+    with open(fname, 'a+') as f:
         data = msg.payload.decode('utf-8') 
         time_str = str(datetime.now().time())
         f.write('{},{}'.format(time_str, data));
