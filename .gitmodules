@@ -1,0 +1,3 @@
+[submodule "MetaSenseFirmware"]
+	path = MetaSenseFirmware
+	url = https://github.com/Orienfish/MetaSenseFirmware
